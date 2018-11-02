@@ -1,4 +1,4 @@
-
+import java.util.*;
 public class HourglassCalculator {
 
 	public static void hourglassForm(int a) {
@@ -39,7 +39,14 @@ public class HourglassCalculator {
 		}
 		System.out.println("|");
 		}
+	public static void main(String[] args) {
+		
+	
+	int[] array = {4, 19, 3, 20, 72, 58};
+	int num = array.length -1;
+	System.out.println(array[array.length-1]);
+
 
 	}
-
+}
 
