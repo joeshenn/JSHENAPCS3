@@ -1,7 +1,6 @@
 import java.util.Arrays;
 public class Split {
 		 public static void main(String[] args) {
-
 // Your task Part 0
 		//String.split();
 
@@ -41,7 +40,9 @@ public class Split {
 			for(int i=1;i<=breads-1;i++) {
 				middle += sandwich[i];
 			}
+			/*Readout of the number of bread for debugging 
 			System.out.println(breads);
+			*/
 			System.out.println(middle);
 		/*Write a method that take in a string like
 
@@ -73,24 +74,34 @@ public class Split {
 
 		*/
 			String[] sandwichSpace = "apples pineapples bread lettus tomato bacon mayo ham bread cheese".split(" ");
-			String contentsSpace = new String("apples pineapples bread lettus tomato bacon mayo ham bread cheese");
-			int counter2 = 0;
-			int breads2 = 0;
+			int topBread = findFirst(sandwichSpace, "bread");
+			int bottomBread = findLast(sandwichSpace, "bread");
 			String middle2= new String("");
-			while(counter2<(contentsSpace.length())){
-				if(contentsSpace.indexOf("bread", counter2)!= -1) {
-					counter2= contentsSpace.indexOf("bread", counter2)+1;
-					breads2++;
-				}
-				else {
-					break;
-				}
-			}
-			for(int i=1;i<=breads2-1;i++) {
+			for(int i=topBread+1;i<bottomBread;i++) {
 				middle2 += sandwichSpace[i];
 			}
-			System.out.println(breads2);
 			System.out.println(middle2);
+			//Readout for top and bottom bread for debugging
+			//System.out.println(findFirst(sandwichSpace, "bread"));
+			//System.out.println(findLast(sandwichSpace, "bread"));
 		 }
+		 //this method finds the index of the first time "bread" appears in the array
+		 public static int findFirst(String[] array, String value) {
+			    for(int i=0; i<array.length; i++) {
+			         if(array[i].equals(value)) {
+			             return i;
+			         }
+			    }
+			    return -1;
+			}
+		 //this method finds the index of the last time "bread" appears in the array 
+		 public static int findLast(String[] array, String value) {
+			    for(int i=array.length-1; i>=0; i--) {
+			         if(array[i].equals(value)) {
+			             return i;
+			         }
+			    }
+			    return -1;
+			}
 
 		}
