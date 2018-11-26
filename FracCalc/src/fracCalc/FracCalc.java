@@ -30,10 +30,8 @@ public class FracCalc {
     //      e.g. return ==> "1_1/4"
     public static String produceAnswer(String input){ 
         // TODO: Implement this function to produce the solution to the input
-    	int whole;
-    	int numerator =0;
-    	int denominator=1;
     	String[] rawInput = input.split(" ");
+    	String operator = new String(rawInput[1].toString());
     	String operand1 = new String(rawInput[0].toString());
     	if(operand1.indexOf("/") == -1){
     		operand1 = intToImpFrac(operand1);
@@ -50,10 +48,82 @@ public class FracCalc {
     	}
     	String impropExpression = new String(operand1+"/"+operand2);
     	String [] finalExpressionSplit = impropExpression.split("/");
-    	int [] finalExpressionInt = new int[4];
-        return ("whole:"+whole+" numerator:"+numerator+" denominator:"+denominator);
+    	int [] finalExpInt = new int[4];
+    	for(int i=0;i<4;i++) {
+    		finalExpInt[i]=Integer.parseInt(finalExpressionSplit[i].toString());
+    	}
+    	int answerNum;
+    	int answerDenom;
+    	if (operator.equals("+")) {
+    		answerNum = (finalExpInt[0]*finalExpInt[3])+(finalExpInt[2]*finalExpInt[1]);
+    		answerDenom = (finalExpInt[1]*finalExpInt[3]);
+    		answerNum = answerNum/gcf(answerNum,answerDenom);
+    		answerDenom = answerDenom/gcf(answerNum,answerDenom);
+    	}
+    	else if(operator.equals("-")) {
+    		answerNum = (finalExpInt[0]*finalExpInt[3])-(finalExpInt[2]*finalExpInt[1]);
+    		answerDenom = (finalExpInt[1]*finalExpInt[3]);
+    		answerNum = answerNum/gcf(answerNum,answerDenom);
+    		answerDenom = answerDenom/gcf(answerNum,answerDenom);
+    	}
+    	else if (operator.equals("*")) {
+    		answerNum = (finalExpInt[0]*finalExpInt[2]);
+    		answerDenom = (finalExpInt[1]*finalExpInt[3]);
+    		answerNum = answerNum/gcf(answerNum,answerDenom);
+    		answerDenom = answerDenom/gcf(answerNum,answerDenom);
+    	}
+    	else {
+    		answerNum = (finalExpInt[0]*finalExpInt[3]);
+    		answerDenom = (finalExpInt[1]*finalExpInt[2]);
+    		answerNum = answerNum/gcf(answerNum,answerDenom);
+    		answerDenom = answerDenom/gcf(answerNum,answerDenom);
+    	}
+        return (toMixedNum(answerNum,answerDenom)+" "+finalExpInt[0]+" "+finalExpInt[2]);
     }
 
     // TODO: Fill in the space below with any helper methods that you think you will need
-    
+    public static String intToImpFrac(String input) {
+    	input = input +"/";
+    	return input;
+    }
+    public static String toImproperFrac(String input) {
+    	String[] sa1 = input.split("_");
+    	String[] sa2 = sa1[1].toString().split("/");
+    	int intpart = Integer.parseInt(sa1[0].toString());
+    	int fracnum = Integer.parseInt(sa2[0].toString());
+    	int fracdenom = Integer.parseInt(sa2[1].toString());
+    	sa2[0] = ((intpart*fracdenom)+fracnum)+"";
+    	return sa2[0]+"/"+sa2[1];
+    }
+    public static String toMixedNum(int numerator, int denominator) {
+		return (numerator/denominator)+"_"+numerator%denominator+"/"+denominator;
+	}
+    public static int max(int num1, int num2) {
+		if(num1 >= num2) {
+			return num1;
+		}else {
+			return num2;
+		}
+	}
+    public static int min(int num1, int num2) {
+		if(num1 <= num2) {
+			return num1;
+		}else {
+			return num2;
+		}
+	}
+    public static int gcf(int num1, int num2) {
+		int smaller = min(num1, num2);
+		int bigger = (int) max(num1, num2);
+		int count = smaller;
+		while(count>1) {
+			if(bigger%count==0 && smaller%count==0) {
+				return count;
+			}
+			else {
+				count--;
+			}
+		}
+		return count;
+	} 
 }
