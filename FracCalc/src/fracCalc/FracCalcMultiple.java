@@ -12,7 +12,11 @@ public class FracCalcMultiple {
     			repeat = false;
     			break;
     		} else {
-    		System.out.println(produceAnswer(expression));
+    		String[] longInput = expression.split(" ");
+    		for(int i=0;i<=longInput.length-2;i+=2) {
+    			longInput[i+2] = produceAnswer(longInput[i].toString()+" "+longInput[i+1].toString()+" "+longInput[i+2].toString());
+    		}
+    		System.out.println(longInput[longInput.length-1]);
     		}
     	}
     	userInput.close();

@@ -3,7 +3,6 @@ import java.util.*;
 public class FracCalc {
 
     public static void main(String[] args) {
-        // TODO: Read the input from the user and call produceAnswer with an equation
     	Scanner userInput = new Scanner(System.in);
     	boolean repeat = true;
     	while(repeat==true) {
@@ -13,23 +12,23 @@ public class FracCalc {
     			repeat = false;
     			break;
     		} else {
-    		System.out.println(produceAnswer(expression));
+    			String[] longInput = expression.split(" ");
+        		for(int i=0;i<=longInput.length-2;i+=2) {
+        			longInput[i+2] = produceAnswer(longInput[i].toString()+" "+longInput[i+1].toString()+" "+longInput[i+2].toString());
+        		}
+        		System.out.println(longInput[longInput.length-1]);
     		}
     	}
     	userInput.close();
-
     }
-    
-    // ** IMPORTANT ** DO NOT DELETE THIS FUNCTION.  This function will be used to test your code
-    // This function takes a String 'input' and produces the result
-    //
-    // input is a fraction string that needs to be evaluated.  For your program, this will be the user input.
-    //      e.g. input ==> "1/2 + 3/4"
-    //        
-    // The function should return the result of the fraction after it has been calculated
-    //      e.g. return ==> "1_1/4"
-    public static String produceAnswer(String input){ 
-        // TODO: Implement this function to produce the solution to the input
+    public static String produceAnswer(String input) {
+    	String[] longInput = input.split(" ");
+		for(int i=0;i<=longInput.length-2;i+=2) {
+			longInput[i+2] = Calculate(longInput[i].toString()+" "+longInput[i+1].toString()+" "+longInput[i+2].toString());
+		}
+		return longInput[longInput.length-1];
+    }
+    public static String Calculate(String input){ 
     	String[] rawInput = input.split(" ");
     	String operator = new String(rawInput[1].toString());
     	String operand1 = new String(rawInput[0].toString());
@@ -76,17 +75,18 @@ public class FracCalc {
     		answerNum = answerNum/gcf;
     		answerDenom = answerDenom/gcf;
     	}
-    	else {
+    	else if (operator.equals("/")) {
     		answerNum = (finalExpInt[0]*finalExpInt[3]);
     		answerDenom = (finalExpInt[1]*finalExpInt[2]);
     		 gcf = gcf(answerNum,answerDenom);
     		answerNum = answerNum/gcf;
     		answerDenom = answerDenom/gcf;
     	}
+    	else {
+    		return "Input is an invalid format";
+    	}
         return (toMixedNum(answerNum,answerDenom));
     }
-
-    // TODO: Fill in the space below with any helper methods that you think you will need
     public static String intToImpFrac(String input) {
     	input = input +"/1";
     	return input;
@@ -115,44 +115,28 @@ public class FracCalc {
     	else if(denominator ==0) {
     		return "can't divide by zero";
     	}
-    	else if(numerator/denominator==0 && denominator>0 && numerator>0) {
+    	else if((numerator/denominator==0 && denominator>0 && numerator>0)||(numerator/denominator==0 && denominator>0 && numerator<0)) {
     		return numerator+"/"+denominator;
     	}
-    	else if(numerator/denominator==0 && denominator<0 && numerator>0) {
+    	else if(numerator/denominator==0 && denominator<0 && numerator>0 || (numerator/denominator==0 && denominator<0 && numerator<0)) {
     		return (numerator*-1)+"/"+denominator*-1;
     	}
-    	else if(numerator/denominator==0 && denominator<0 && numerator<0) {
-    		return numerator*-1+"/"+denominator*-1;
-    	}
-    	else if(numerator/denominator==0 && denominator>0 && numerator<0) {
-    		return numerator+"/"+denominator;
-    	}
     	else {
-    	if(absValue(numerator%denominator)==0) {
+    	if(Math.abs(numerator%denominator)==0) {
     		return numerator/denominator+"";
     	}
-    	else if(denominator==1) {
-    		return numerator+"";
-    	}
-    	else if(denominator==-1) {
-    		return numerator*-1+"";
-    	}
-		return (numerator/denominator)+"_"+absValue(numerator%denominator)+"/"+absValue(denominator);
+		return (numerator/denominator)+"_"+Math.abs(numerator%denominator)+"/"+Math.abs(denominator);
     	}
 	}
     public static int max(int num1, int num2) {
-		if(num1 >= num2) {
+		if(num1 >= num2) 
 			return num1;
-		}else {
 			return num2;
-		}
 	}
     public static int min(int num1, int num2) {
-		if(num1 <= num2) {
+		if(num1 <= num2) 
 			return num1;
-		}else {
 			return num2;
-		}
 	}
     public static int gcf(int num1, int num2) {
 		int smaller = min(num1, num2);
@@ -182,12 +166,4 @@ public class FracCalc {
 		}
 		return count;
 	} 
-	public static int absValue(int num) {
-		if(num >= 0) {
-			return num;
-		}
-		else {
-			return num*-1;
-		}
-	}
 }
