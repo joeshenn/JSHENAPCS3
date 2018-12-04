@@ -13,18 +13,26 @@ public class FracCalc {
     			break;
     		} else {
     			String[] longInput = expression.split(" ");
+    			int addOn = 0;
+    			for(int i=0;i<longInput.length;i++) {
+    				if(longInput[i].equals("*") || longInput[i].equals("/")) {
+    					addOn += Integer.parseInt(Calculate(longInput[i-1]+" "+longInput[i]+" "+longInput[i+1]));
+    					longInput[i-1] = longInput[i+1] = "0";
+    					longInput[i] = "+";
+    				}
+    			}
         		for(int i=0;i<=longInput.length-2;i+=2) {
         			longInput[i+2] = produceAnswer(longInput[i].toString()+" "+longInput[i+1].toString()+" "+longInput[i+2].toString());
         		}
-        		System.out.println(longInput[longInput.length-1]);
+        		System.out.println(Calculate(Integer.parseInt(longInput[longInput.length-1])+" "+"+ "+addOn));
     		}
     	}
     	userInput.close();
     }
     public static String produceAnswer(String input) {
     	String[] longInput = input.split(" ");
-		for(int i=0;i<=longInput.length-2;i+=2) {
-			longInput[i+2] = Calculate(longInput[i].toString()+" "+longInput[i+1].toString()+" "+longInput[i+2].toString());
+		for(int j=0;j<=longInput.length-2;j+=2) {
+			longInput[j+2] = Calculate(longInput[j].toString()+" "+longInput[j+1].toString()+" "+longInput[j+2].toString());
 		}
 		return longInput[longInput.length-1];
     }
