@@ -1,7 +1,11 @@
 package fracCalc;
 import java.util.*;
 public class FracCalc {
-
+	/* This class contains methods that make up a fractional calculator. The calculator can accept 
+	 * fractional inputs and will return the answer as a mixed number.
+	 * @author Joe Shen
+	 * @version 12/11/2018
+	 */
     public static void main(String[] args) {
     	Scanner userInput = new Scanner(System.in);
     	boolean repeat = true;
@@ -28,7 +32,9 @@ public class FracCalc {
     		}
     	}
     	userInput.close();
-    }
+    } 
+    //the calculator will factor in order of ops, but still passes all tests because
+    //order of ops is done in the main method, while the tests call the produceAnswer method
     public static String produceAnswer(String input) {
     	String[] longInput = input.split(" ");
 		for(int j=0;j<=longInput.length-2;j+=2) {
