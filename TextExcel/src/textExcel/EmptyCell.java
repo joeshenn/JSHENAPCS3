@@ -14,4 +14,7 @@ public class EmptyCell implements Cell{
 		// text for individual cell inspection, not truncated or padded
 		return "output";
 	}
+	public EmptyCell() {
+		
+	}
 }

@@ -8,12 +8,17 @@ public class Spreadsheet implements Grid
 	public Spreadsheet() {
 		//initializes a 2D array of cells with all elements containing EmptyCell objects
 		EmptyCell[][] array;
+		/*for(int col=1;col<=12;col++) {
+			for(int row=1;row<=20;row++) {
+				array[col][row]= 
+			}
+		}*/
 	}
 	@Override
 	public String processCommand(String command)
 	{
 		// TODO Auto-generated method stub
-		return null;
+		return "";
 	}
 
 	@Override
