@@ -14,11 +14,15 @@ public class TextExcel
     	while(repeat==true) {
     		System.out.println("Please enter a command. Type \"quit\" to stop");
     		String expression = userInput.nextLine();
+    		SpreadsheetLocation loc = new SpreadsheetLocation(expression);
     		if(expression.equals("quit") == true) {
     			repeat = false;
     			break;
     		} else {
     			System.out.println(newSheet.processCommand(expression));
+    			System.out.println(newSheet.getGridText());
+    			System.out.println(loc.getCol());
+    			System.out.println(loc.getRow());
     		}
     	
 	}

@@ -16,7 +16,7 @@ public class SpreadsheetLocation implements Location
     		}
     	}
     @Override
-    public int getRow()
+    public int getCol()
     {
         // TODO Auto-generated method stub
         return input[0]-65;
@@ -24,14 +24,15 @@ public class SpreadsheetLocation implements Location
     }
 
     @Override
-    public int getCol()
+    public int getRow()
     {
         // TODO Auto-generated method stub
     	if (location.length()==2){
-            return input[1];
+            return input[1]-49;
     	}
     	else if (location.length()==3) {
-    	return Integer.parseInt((""+input[1])+(""+input[2])) - 1;
+    		String output = ""+input[1] + ""+input[2];
+    	return Integer.parseInt(output)-1;
     	}
     	else {
     		return 0;
