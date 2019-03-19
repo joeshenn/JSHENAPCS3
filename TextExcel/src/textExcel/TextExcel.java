@@ -20,9 +20,9 @@ public class TextExcel
     			break;
     		} else {
     			System.out.println(newSheet.processCommand(expression));
-    			System.out.println(newSheet.getGridText());
-    			System.out.println(loc.getCol());
-    			System.out.println(loc.getRow());
+    		//	System.out.println(newSheet.getGridText());
+    			//System.out.println(loc.getCol());
+    		//	System.out.println(loc.getRow());
     		}
     	
 	}
