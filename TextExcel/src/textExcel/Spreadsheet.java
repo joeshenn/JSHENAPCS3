@@ -43,8 +43,23 @@ private int columns;
 		else if(command.indexOf("=")!=-1) {
 			String[] assign = command.split(" ",3);
 			SpreadsheetLocation inspected = new SpreadsheetLocation(assign[0].toUpperCase());
-			String[] noquotes = assign[2].split("\"",3);
-			sheet[inspected.getRow()][inspected.getCol()] = new TextCell(noquotes[1]);
+			//text cell
+			if(command.indexOf("\"")!=-1) {
+				String[] noquotes = assign[2].split("\"",3);
+				sheet[inspected.getRow()][inspected.getCol()] = new TextCell(noquotes[1]);
+			}
+			//formula cell
+			else if(command.indexOf("(")!=-1) {
+				sheet[inspected.getRow()][inspected.getCol()] = new FormulaCell(assign[2]);
+			}
+			//percent cell
+			else if(command.indexOf("%")!=-1) {
+				sheet[inspected.getRow()][inspected.getCol()] = new PercentCell(assign[2]);
+			}
+			//value cell
+			else {
+				sheet[inspected.getRow()][inspected.getCol()] = new ValueCell(assign[2]);
+			}
 			return getGridText();
 		}
 		//cell inspection 
