@@ -6,15 +6,21 @@ public class FormulaCell extends RealCell {
 	}
 	public double getDoubleValue(){
 		String[] longInput = (super.fullCellText()).split(" ");
+		Spreadsheet accessCell = new Spreadsheet();
 		for(int i=1;i<longInput.length-2;i+=2) {
 			if(longInput[i]=="SUM" || longInput[i]=="AVG") {
 				String[] range = longInput[i+1].split("-", 2);
 				
+				if(longInput[i]=="SUM") {
+					
+				}
+				else  {  //AVG
+					
+				}
 			}
 			else {
 				for(int j=1;j<longInput.length-1;j++) {
 					if(longInput[j].charAt(0) >57) {
-						Spreadsheet accessCell = new Spreadsheet();
 						SpreadsheetLocation refCell = new SpreadsheetLocation(longInput[j].toString());
 						longInput[j] = ((RealCell) (accessCell.getCell(refCell))).getDoubleValue()+"";
 					}
