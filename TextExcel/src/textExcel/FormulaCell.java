@@ -7,27 +7,36 @@ public class FormulaCell extends RealCell {
 	public double getDoubleValue(){
 		String[] longInput = (super.fullCellText()).split(" ");
 		Spreadsheet accessCell = new Spreadsheet();
-		for(int i=1;i<longInput.length-2;i+=2) {
-			if(longInput[i]=="SUM" || longInput[i]=="AVG") {
-				String[] range = longInput[i+1].split("-", 2);
-				
-				if(longInput[i]=="SUM") {
-					
-				}
-				else  {  //AVG
-					
+		if(longInput[1]=="SUM" || longInput[1]=="AVG") {
+			String[] range = longInput[2].split("-", 2);
+			double sum = 0;
+			char startIndex = (range[0].toString()).charAt(0);
+			char endIndex = (range[1].toString()).charAt(0);
+			int lowerBound = Integer.parseInt((range[0].toString()).substring(1));
+			int upperBound = Integer.parseInt((range[1].toString()).substring(1));
+			double numTerms = (upperBound-lowerBound+1)*(endIndex-startIndex+1);
+			for(int j =startIndex; j<=endIndex;j++) { //iterates through the character portion of the cell reference
+				for(int k = lowerBound; k<=upperBound;k++) {
+					SpreadsheetLocation refCell = new SpreadsheetLocation(((char)j)+k+"");
+					sum += ((RealCell) (accessCell.getCell(refCell))).getDoubleValue();
 				}
 			}
-			else {
-				for(int j=1;j<longInput.length-1;j++) {
-					if(longInput[j].charAt(0) >57) {
-						SpreadsheetLocation refCell = new SpreadsheetLocation(longInput[j].toString());
-						longInput[j] = ((RealCell) (accessCell.getCell(refCell))).getDoubleValue()+"";
-					}
+			if(longInput[1]=="SUM") {
+				return sum;
+			}
+			else  {  //AVG
+				return sum / numTerms;
+			}
+		} 
+		for(int j=1;j<longInput.length;j++) {
+			if(longInput[j].charAt(0) >= 65 && longInput[j].charAt(0) <= 76) {
+				SpreadsheetLocation refCell = new SpreadsheetLocation(longInput[j].toString());
+				longInput[j] = ((RealCell) (accessCell.getCell(refCell))).getDoubleValue()+"";
 				}
+			}
+		for(int i=1;i<longInput.length-2;i+=2) {
 				longInput[i+2] = produceAnswer(longInput[i]+" "+longInput[i+1]+" "+longInput[i+2]);
 			}
-		}
 		return Double.parseDouble(longInput[longInput.length-2]);
 	}
 	public static String produceAnswer(String input) {
