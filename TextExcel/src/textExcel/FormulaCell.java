@@ -7,21 +7,26 @@ public class FormulaCell extends RealCell {
 	public double getDoubleValue(){
 		String[] longInput = (super.fullCellText()).split(" ");
 		Spreadsheet accessCell = new Spreadsheet();
-		if(longInput[1]=="SUM" || longInput[1]=="AVG") {
+		System.out.println(longInput[1]);
+		if(longInput[1].equals("SUM") || longInput[1].equals("AVG")) {
 			String[] range = longInput[2].split("-", 2);
 			double sum = 0;
 			char startIndex = (range[0].toString()).charAt(0);
 			char endIndex = (range[1].toString()).charAt(0);
+			System.out.println(startIndex + " " + endIndex);
 			int lowerBound = Integer.parseInt((range[0].toString()).substring(1));
 			int upperBound = Integer.parseInt((range[1].toString()).substring(1));
+			System.out.println(lowerBound + " "+ upperBound);
 			double numTerms = (upperBound-lowerBound+1)*(endIndex-startIndex+1);
+			System.out.println(numTerms);
 			for(int j =startIndex; j<=endIndex;j++) { //iterates through the character portion of the cell reference
 				for(int k = lowerBound; k<=upperBound;k++) {
-					SpreadsheetLocation refCell = new SpreadsheetLocation(((char)j)+k+"");
+					//System.out.println(((char)j)+""+k);
+					SpreadsheetLocation refCell = new SpreadsheetLocation(((char)j)+""+k);
 					sum += ((RealCell) (accessCell.getCell(refCell))).getDoubleValue();
 				}
 			}
-			if(longInput[1]=="SUM") {
+			if(longInput[1].equals("SUM")) {
 				return sum;
 			}
 			else  {  //AVG
