@@ -50,7 +50,7 @@ private int columns;
 			}
 			//formula cell
 			else if(command.indexOf("(")!=-1) {
-				sheet[inspected.getRow()][inspected.getCol()] = new FormulaCell(assign[2]);
+				sheet[inspected.getRow()][inspected.getCol()] = new FormulaCell(assign[2], this);
 			}
 			//percent cell
 			else if(command.indexOf("%")!=-1) {
@@ -62,6 +62,8 @@ private int columns;
 			}
 			return getGridText();
 		}
+		//sorting 
+		//else if()
 		//cell inspection 
 		else {
 			SpreadsheetLocation inspected = new SpreadsheetLocation(command);
