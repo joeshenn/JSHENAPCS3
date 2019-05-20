@@ -1,6 +1,6 @@
 package textExcel;
 
-public class RealCell implements Cell {
+public class RealCell implements Cell, Comparable <RealCell> {
 	private String vinput;
 	public RealCell(String input) {
 		vinput = input;
@@ -29,8 +29,18 @@ public class RealCell implements Cell {
 		// text for individual cell inspection, not truncated or padded
 		return vinput;
 	}
-	//fill in 
 	public double getDoubleValue(){
 		return Double.parseDouble(vinput);
+	}
+	public int compareTo(RealCell comparedValue) {
+		if(this.getDoubleValue() < comparedValue.getDoubleValue()) {
+			return -1;
+		}
+		else if(this.getDoubleValue() == comparedValue.getDoubleValue()) {
+			return 0;
+		}
+		else { //this cell's value is greater than that of cell it is being compared to
+			return 1;
+		}
 	}
 }

@@ -63,7 +63,9 @@ private int columns;
 			return getGridText();
 		}
 		//sorting 
-		//else if()
+	//	else if(command.substring(0, 5).equalsIgnoreCase("sorta") || command.substring(0, 5).equalsIgnoreCase("sortd")) {
+			
+	//	}
 		//cell inspection 
 		else {
 			SpreadsheetLocation inspected = new SpreadsheetLocation(command);
