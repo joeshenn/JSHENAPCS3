@@ -1,5 +1,5 @@
 package textExcel;
-
+import java.util.*;
 // Update this file with your own code.
 
 public class Spreadsheet implements Grid{
@@ -63,9 +63,9 @@ private int columns;
 			return getGridText();
 		}
 		//sorting 
-	//	else if(command.substring(0, 5).equalsIgnoreCase("sorta") || command.substring(0, 5).equalsIgnoreCase("sortd")) {
-			
-	//	}
+		else if(command.substring(0, 5).equalsIgnoreCase("sorta") || command.substring(0, 5).equalsIgnoreCase("sortd")) {
+			sort(command);
+		}
 		//cell inspection 
 		else {
 			SpreadsheetLocation inspected = new SpreadsheetLocation(command);
@@ -115,6 +115,33 @@ private int columns;
 		}
 		// TODO Auto-generated method stub
 		return gridText;
+	}
+	public void sort ( String input) {
+		String[] range = input.substring(6).split("-", 2);
+		char startIndex = (range[0].toString().toUpperCase()).charAt(0);
+		char endIndex = (range[1].toString().toUpperCase()).charAt(0);
+		//System.out.println(startIndex + " " + endIndex);
+		int lowerBound = Integer.parseInt((range[0].toString()).substring(1));
+		int upperBound = Integer.parseInt((range[1].toString()).substring(1));
+		//System.out.println(lowerBound + " "+ upperBound);
+		double numTerms = (upperBound-lowerBound+1)*(endIndex-startIndex+1);
+	//	System.out.println(numTerms);
+		for(int j =startIndex; j<=endIndex;j++) { //iterates through the character portion of the cell reference
+			for(int k = lowerBound; k<=upperBound;k++) {
+				SpreadsheetLocation refCell = new SpreadsheetLocation(((char)j)+""+k);
+				if(this.getCell(refCell) instanceof TextCell) {
+				//	TextCell[] orderedText = new TextCell[];
+					if(j==startIndex && k==lowerBound) {
+						
+					}
+					else {
+						
+					}
+				}
+				else { //the cells are real cells 
+					
+				}
+			}
 	}
 
 }
