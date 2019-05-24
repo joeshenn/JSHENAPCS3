@@ -6,6 +6,7 @@ public class Spreadsheet implements Grid{
 private Cell[][] sheet;
 private int rows;
 private int columns;
+private ArrayList<TextCell> orderedCells;
 //constructor 
 	public Spreadsheet() {
 		//initializes a 2D array of cells with all elements containing EmptyCell objects
@@ -63,8 +64,10 @@ private int columns;
 			return getGridText();
 		}
 		//sorting 
-		else if(command.substring(0, 5).equalsIgnoreCase("sorta") || command.substring(0, 5).equalsIgnoreCase("sortd")) {
+		//else if(command.substring(0, 5).equalsIgnoreCase("sorta") || command.substring(0, 5).equalsIgnoreCase("sortd")) {
+		else if (command.toLowerCase().contains("sorta") || command.toLowerCase().contains("sortd")) {
 			sort(command);
+			return getGridText();
 		}
 		//cell inspection 
 		else {
@@ -118,30 +121,62 @@ private int columns;
 	}
 	public void sort ( String input) {
 		String[] range = input.substring(6).split("-", 2);
+		int count = 0;
 		char startIndex = (range[0].toString().toUpperCase()).charAt(0);
 		char endIndex = (range[1].toString().toUpperCase()).charAt(0);
 		//System.out.println(startIndex + " " + endIndex);
 		int lowerBound = Integer.parseInt((range[0].toString()).substring(1));
 		int upperBound = Integer.parseInt((range[1].toString()).substring(1));
 		//System.out.println(lowerBound + " "+ upperBound);
-		double numTerms = (upperBound-lowerBound+1)*(endIndex-startIndex+1);
+		//double numTerms = (upperBound-lowerBound+1)*(endIndex-startIndex+1);
 	//	System.out.println(numTerms);
+		SpreadsheetLocation typeCell = new SpreadsheetLocation(((char)startIndex)+""+lowerBound);
+		if(this.getCell(typeCell) instanceof TextCell) {
+		 orderedCells = new ArrayList<TextCell>();
+		}
+		else { //real cells
+		 orderedCells = new ArrayList<TextCell>();
+		}
 		for(int j =startIndex; j<=endIndex;j++) { //iterates through the character portion of the cell reference
 			for(int k = lowerBound; k<=upperBound;k++) {
+				if(this.getCell(typeCell) instanceof TextCell) {
 				SpreadsheetLocation refCell = new SpreadsheetLocation(((char)j)+""+k);
-				if(this.getCell(refCell) instanceof TextCell) {
-				//	TextCell[] orderedText = new TextCell[];
 					if(j==startIndex && k==lowerBound) {
-						
+						orderedCells.add((TextCell)this.getCell(refCell));
+						System.out.println(orderedCells.get(0).fullCellText());
 					}
 					else {
-						
+						if(((TextCell)this.getCell(refCell)).compareTo(orderedCells.get(0))==-1) { //lower bound
+							orderedCells.add(0, (TextCell)this.getCell(refCell));
+							System.out.println(orderedCells.get(0).fullCellText());
+						}
+						else if(((TextCell)this.getCell(refCell)).compareTo(orderedCells.get(0))==1) { //upper bound
+							orderedCells.add((TextCell)this.getCell(refCell));
+						}
+						else {
+							for(int i=1;i<orderedCells.size()-1;i++) {
+								if(((TextCell)this.getCell(refCell)).compareTo(orderedCells.get(i+1))<=0 && ((TextCell)this.getCell(refCell)).compareTo(orderedCells.get(i-1))>=0) {
+									orderedCells.add(i, (TextCell)this.getCell(refCell));
+									break;
+								}
+							}
+						}
 					}
 				}
 				else { //the cells are real cells 
 					
 				}
+			
 			}
+		}
+		for(int k = lowerBound; k<=upperBound;k++) { //iterates through the integer portion of the cell reference
+			for(int j =startIndex; j<=endIndex;j++){
+				SpreadsheetLocation refCell = new SpreadsheetLocation(((char)j)+""+k);
+				sheet[refCell.getRow()][refCell.getCol()] = orderedCells.get(count);
+				count++;
+			}
+		}
+			
 	}
 
 }
